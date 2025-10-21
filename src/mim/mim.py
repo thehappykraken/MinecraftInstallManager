@@ -10,11 +10,11 @@ from packaging.version import Version, InvalidVersion
 import traceback
 
 
-from mpm.util.GithubRepository import GithubRepository
-from mpm.util.ModrinthRepository import ModrinthRepository
-from mpm.util.SpigetRepository import SpigetRepository
-from mpm.util.PaperRepository import PaperRepository
-from mpm.util.Repository import Plugin, PluginRepository, PluginVersion, PluginAsset, Server, ServerRepository
+from mim.util.GithubRepository import GithubRepository
+from mim.util.ModrinthRepository import ModrinthRepository
+from mim.util.SpigetRepository import SpigetRepository
+from mim.util.PaperRepository import PaperRepository
+from mim.util.Repository import Plugin, PluginRepository, PluginVersion, PluginAsset, Server, ServerRepository
 import re
 import json
 
@@ -290,7 +290,7 @@ def install(args):
             print(f'{version.plugin.name} Version: {version.version} (Up to date)')
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog='mpm', description='Minecraft Plugin Manager CLI')
+    p = argparse.ArgumentParser(prog='mim', description='Minecraft Install Manager CLI')
     sub = p.add_subparsers(dest='command')
 
     p_versions = sub.add_parser('versions', help='List plugin versions')

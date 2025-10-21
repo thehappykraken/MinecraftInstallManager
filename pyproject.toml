@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "minecraft-plugin-manager"
+name = "minecraft-install-manager"
 version = "0.0.1"
 description = "A small CLI to find and download Minecraft server plugins from multiple repositories"
 readme = "README.md"
@@ -28,7 +28,7 @@ Homepage = "https://github.com/thehappykraken/MinecraftPluginManager"
 Source = "https://github.com/thehappykraken/MinecraftPluginManager"
 
 [project.scripts]
-mpm = "mpm.mpm:main"
+mim = "mim.mim:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

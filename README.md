@@ -2,10 +2,10 @@
 Python utility to query, download, and install Minecraft plugins
 
 ## Installation
-`pip install minecraft-plugin-manager`
+`pip install thehappykraken/minecraft-install-manager`
 
 ## Usage
-Use `mpm --help` to view the help documentation
+Use `mim --help` to view the help documentation
 
 ### Repositories
 

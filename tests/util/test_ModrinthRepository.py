@@ -1,4 +1,4 @@
-from mpm.util.Repository import Plugin
+from mim.util.Repository import Plugin
 import pytest
 import os
 
