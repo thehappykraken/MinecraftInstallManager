@@ -1,4 +1,4 @@
-from mpm.util.Repository import *
+from mim.util.Repository import *
 import requests
 import os
 import re

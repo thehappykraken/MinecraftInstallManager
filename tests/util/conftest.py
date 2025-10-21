@@ -1,7 +1,7 @@
-from src.mpm.util.SpigetRepository import SpigetRepository
-from src.mpm.util.PaperRepository import PaperRepository
-from src.mpm.util.GithubRepository import GithubRepository
-from src.mpm.util.ModrinthRepository import ModrinthRepository
+from src.mim.util.SpigetRepository import SpigetRepository
+from src.mim.util.PaperRepository import PaperRepository
+from src.mim.util.GithubRepository import GithubRepository
+from src.mim.util.ModrinthRepository import ModrinthRepository
 import pytest
 
 
