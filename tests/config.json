@@ -1,0 +1,53 @@
+{
+  "loader": "paper",
+  "server": "1.x.x",
+  "plugins": [
+    {
+      "name": "DeathChest",
+      "id": "DevCyntrix/death-chest"
+    },
+    {
+      "name": "DiscordSRV"
+    },
+    {
+      "name": "EssentialsX"
+    },
+    {
+      "name": "GlobalEffects",
+      "id": "saro476/GlobalEffects"
+    },
+    {
+      "name": "GriefPrevention"
+    },
+    {
+      "name": "LuckPerms"
+    },
+    {
+      "name": "QuickShop-Hikari",
+      "assets": [
+        "QuickShop.*.jar",
+        ".*DiscordSRV.*.jar",
+        ".*GriefPrevention.*.jar",
+        ".*WorldEdit.*.jar"
+      ]
+    },
+    {
+      "name": "RedisEconomy",
+      "id": "105965"
+    },
+    {
+      "name": "SkinsRestorer"
+    },
+    {
+      "name": "Vault",
+      "id": "34315",
+      "version": "1.7.3"
+    },
+    {
+      "name": "ViaVersion"
+    },
+    {
+      "name": "WorldEdit"
+    }
+  ]
+}
