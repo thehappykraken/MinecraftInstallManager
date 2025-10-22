@@ -2,6 +2,7 @@
 import mim.mim as mim
 import os
 import json
+import yaml
 import glob
 
 def test_main_help_and_exit_codes(monkeypatch, capsys):
@@ -103,15 +104,15 @@ def test_main_install_dryrun(tmp_path):
             }
         ]
     }
-    json_file = os.path.join(tmp_path, "install.json")
-    with open(json_file, 'w', encoding='utf-8') as f:
-        json.dump(data, f)
+    yaml_file = os.path.join(tmp_path, "install.yaml")
+    with open(yaml_file, 'w', encoding='utf-8') as f:
+        yaml.safe_dump(data, f)
 
     # Run the install command
-    result = mim.main(['install', '--file', json_file, '--destination', tmp_path, '--dryrun'])
+    result = mim.main(['install', '--file', yaml_file, '--destination', tmp_path, '--dryrun'])
     assert result == 0
 
-    # Verify at least one expected asset was installed into the destination
+    # Verify at least one expected asset was not installed into the destination
     qs_matches = glob.glob(os.path.join(tmp_path, "*QuickShop*"))
     assert not qs_matches
     # assert qs_matches and qs_matches[0].is_file()
