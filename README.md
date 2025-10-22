@@ -53,10 +53,10 @@ plugins:
 
 ### Repositories
 
-MinecraftPluginManager is configured to search for plugins from
+MinecraftInstallManager is configured to search for plugins from
 - Spiget: https://spigetmc.com
 - Modrinth: https://modrinth.com
 - GitHub: https://github.com
 
-MinecraftPluginManager is configured to search for servers from
+MinecraftInstallManager is configured to search for servers from
 - Paper: https://papermc.io
