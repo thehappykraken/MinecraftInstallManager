@@ -17,6 +17,7 @@ from mim.util.PaperRepository import PaperRepository
 from mim.util.Repository import Plugin, PluginRepository, PluginVersion, PluginAsset, Server, ServerRepository
 import re
 import json
+import yaml
 
 def find_versions(name: str | None, id: str | None, loader: str|None, server: str|None) -> List[PluginVersion]:
     """Find plugin versions by name and/or id using registered repositories."""
@@ -101,12 +102,12 @@ def install(args):
 
     # locate input json attribute
     input_file = None
-    for attr in ('file', 'json', 'input'):
+    for attr in ('file', 'json', 'input', 'yaml'):
         if hasattr(args, attr) and getattr(args, attr):
             input_file = getattr(args, attr)
             break
     if not input_file:
-        raise ValueError('No input json file specified (expected args.file / args.json / args.input)')
+        raise ValueError('No input file specified (expected config.file / config.json / config.yaml / config.input)')
 
     in_path = Path(input_file)
     if not in_path.exists():
@@ -122,8 +123,13 @@ def install(args):
 
     try:
         data = json.loads(in_path.read_text(encoding='utf-8'))
-    except Exception as e:
-        raise json.JSONDecodeError(f'Failed to read/parse json: {e}')
+    except json.JSONDecodeError as e:
+        try:
+            data = yaml.safe_load(in_path.read_text(encoding='utf-8'))
+        except:
+            raise Exception(f'Unable to read from {in_path}')
+    except:
+        raise Exception(f'Unable to read from {in_path}')
 
 
     if not isinstance(data, dict):
@@ -318,8 +324,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_download.add_argument('--destination', '-d', help='Directory to save downloads')
     p_download.set_defaults(func=download)
 
-    p_install = sub.add_parser('install', help='Install plugins from a JSON specification file')
-    p_install.add_argument('--file', '-f', required=True, help='Path to input JSON file specifying plugins to install')
+    p_install = sub.add_parser('install', help='Install plugins from a JSON or YAML specification file')
+    p_install.add_argument('--file', '-f', required=True, help='Path to input JSON or YAML file specifying plugins to install')
     p_install.add_argument('--destination', '-d', help='Directory to install plugins to')
     p_install.add_argument('--force', action='store_true', help='Force redownload of existing installations')
     p_install.add_argument('--dryrun', action='store_true', help='Perform a dry run without actual downloads or installations')
