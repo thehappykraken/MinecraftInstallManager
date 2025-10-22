@@ -21,7 +21,7 @@ Python utility to query, download, and install Minecraft servers and plugins
 ## Usage
 Use `mim --help` to view the help documentation
 
-### JSON Format
+### YAML Format
 ```
 # loader - The name of the plugin loader such as paper, fabric, or vanilla
 loader: "plugin loader"
