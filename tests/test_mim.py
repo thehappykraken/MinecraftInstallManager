@@ -62,9 +62,12 @@ def test_main_install(tmp_path):
                 "version": "7.3.9"
             },
             {
-            "name": "DeathChest",
-            "id": "DevCyntrix/death-chest"
+                "name": "DeathChest",
+                "id": "DevCyntrix/death-chest"
             },
+            {
+                "name": "Geyser"
+            }
         ]
     }
     json_file = os.path.join(tmp_path, "install.json")

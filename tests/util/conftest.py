@@ -2,6 +2,7 @@ from src.mim.util.SpigetRepository import SpigetRepository
 from src.mim.util.PaperRepository import PaperRepository
 from src.mim.util.GithubRepository import GithubRepository
 from src.mim.util.ModrinthRepository import ModrinthRepository
+from src.mim.util.GeyserRepository import GeyserRepository
 import pytest
 
 
@@ -20,3 +21,7 @@ def github_repository():
 @pytest.fixture(autouse=True,scope='session')
 def modrinth_repository():
     return ModrinthRepository()
+
+@pytest.fixture(autouse=True,scope='session')
+def geyser_repository():
+    return GeyserRepository()
