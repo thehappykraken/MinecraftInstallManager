@@ -14,6 +14,7 @@ from mim.util.GithubRepository import GithubRepository
 from mim.util.ModrinthRepository import ModrinthRepository
 from mim.util.SpigetRepository import SpigetRepository
 from mim.util.PaperRepository import PaperRepository
+from mim.util.GeyserRepository import GeyserRepository
 from mim.util.Repository import Plugin, PluginRepository, PluginVersion, PluginAsset, Server, ServerRepository
 import re
 import json
@@ -342,6 +343,7 @@ def main(argv: List[str] | None = None) -> int:
         parser.print_help()
         return 1
     try:
+        GeyserRepository()
         GithubRepository()
         ModrinthRepository()
         SpigetRepository()
