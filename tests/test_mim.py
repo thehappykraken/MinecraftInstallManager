@@ -91,6 +91,60 @@ def test_main_install(tmp_path):
     assert qs_matches and os.path.isfile(qs_matches[0])
     # assert qs_matches and qs_matches[0].is_file()
 
+def test_main_uninstall(tmp_path):
+    # Prepare an install JSON that targets a plugin known to be available in tests
+    data = {
+        "version": "1.21.1",
+        "loader": "paper",
+        "plugins": [
+            {
+                "name": "WorldEdit",
+                "version": "7.3.8"
+            }
+        ]
+    }
+    json_file = os.path.join(tmp_path, "install.json")
+    with open(json_file, 'w', encoding='utf-8') as f:
+        json.dump(data, f)
+
+    # Run the install command
+    result = mim.main(['install', '--file', json_file, '--destination', tmp_path])
+    assert result == 0
+
+    # Verify WorldEdit 7.3.8 was installed
+    qs_matches = glob.glob(os.path.join(tmp_path, 'plugins', "WorldEdit*7.3.8*jar"))
+    assert qs_matches and os.path.isfile(qs_matches[0])
+
+    # Update WorldEdit version
+    data = {
+        "version": "1.21.1",
+        "loader": "paper",
+        "plugins": [
+            {
+                "name": "WorldEdit",
+                "version": "7.3.9"
+            }
+        ]
+    }
+    json_file = os.path.join(tmp_path, "install.json")
+    with open(json_file, 'w', encoding='utf-8') as f:
+        json.dump(data, f)
+        
+    # Run the install command
+    result = mim.main(['install', '--file', json_file, '--destination', tmp_path])
+    assert result == 0
+
+    # Verify server was installed
+    qs_matches = glob.glob(os.path.join(tmp_path, f"*{data['version']}*"))
+    assert qs_matches and os.path.isfile(qs_matches[0])
+
+    # Verify WorldEdit 7.3.9 was installed and 7.3.8 was removed
+    qs_matches = glob.glob(os.path.join(tmp_path, 'plugins', "WorldEdit*7.3.9.jar"))
+    assert qs_matches and os.path.isfile(qs_matches[0])
+
+    qs_matches = glob.glob(os.path.join(tmp_path, 'plugins', "WorldEdit*7.3.8.jar"))
+    assert not qs_matches
+
 def test_main_install_dryrun(tmp_path):
     # Prepare an install JSON that targets a plugin known to be available in tests
     data = {
