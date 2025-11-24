@@ -300,7 +300,7 @@ def install(args):
 
                 # Uninstall existing installations
                 for v in current_versions:
-                    files=v.uninstall(dest)
+                    files=v.uninstall(plugin_dest)
                     if not files:
                         raise Exception(f'Failed to uninstall {v.plugin.name} {v.version}')
                     else:
