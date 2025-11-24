@@ -258,8 +258,21 @@ def install(args):
 
     for version in plugin_versions:
         current_versions = version.plugin.installedVersions(plugin_dest)
+
+        # determine supported server version range
+        if not version.compatibility:
+            compat_range = 'any'
+        else:
+            srv_versions = [s.server_version for s in version.compatibility]
+            try:
+                parsed = sorted(srv_versions, key=lambda x: Version(x))
+            except InvalidVersion:
+                parsed = sorted(srv_versions)
+            compat_range = parsed[0] if len(parsed) == 1 else f'{parsed[0]} - {parsed[-1]}'
+
         if not current_versions or current_versions[0] != version or args.force:
-            print(f'{version.plugin.name} Version: {version.version}' + (f' (Updated from {current_versions[0].version})' if current_versions else ''))
+
+            print(f'{version.plugin.name} Version: {version.version} (Supported: {compat_range})' + (f' (Updated from {current_versions[0].version})' if current_versions else ''))
             
             if not args.dryrun:
                 index = [n['name'] for n in data['plugins']].index(version.plugin.name)
@@ -287,14 +300,14 @@ def install(args):
 
                 # Uninstall existing installations
                 for v in current_versions:
-                    files=v.uninstall(dest)
+                    files=v.uninstall(plugin_dest)
                     if not files:
                         raise Exception(f'Failed to uninstall {v.plugin.name} {v.version}')
                     else:
                         for file in files:
                             print(f'   Uninstalled {os.path.basename(file)}')
         else:
-            print(f'{version.plugin.name} Version: {version.version} (Up to date)')
+            print(f'{version.plugin.name} Version: {version.version} (Supported: {compat_range}) (Up to date)')
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog='mim', description='Minecraft Install Manager CLI')
