@@ -55,8 +55,8 @@ class JenkinsRepository(PluginRepository):
         assets = []
         for asset in plugin_version.metadata['artifacts']:
             filename = asset['displayPath']
-            if plugin_version.version not in filename:
-                filename = filename.replace('.jar', f'-{plugin_version.version}.jar')
+            if str({plugin_version.metadata["number"]}) not in filename:
+                filename = filename.replace('.jar', f'-{plugin_version.metadata["number"]}.jar')
             plugin_asset = PluginAsset(filename=filename, plugin_version=plugin_version, metadata=asset)
             assets.append(plugin_asset)
         return assets
