@@ -11,6 +11,7 @@ import traceback
 
 
 from mim.util.GithubRepository import GithubRepository
+from mim.util.JenkinsRepository import JenkinsRepository
 from mim.util.ModrinthRepository import ModrinthRepository
 from mim.util.SpigetRepository import SpigetRepository
 from mim.util.PaperRepository import PaperRepository
@@ -358,6 +359,7 @@ def main(argv: List[str] | None = None) -> int:
     try:
         GeyserRepository()
         GithubRepository()
+        JenkinsRepository()
         ModrinthRepository()
         SpigetRepository()
         PaperRepository()

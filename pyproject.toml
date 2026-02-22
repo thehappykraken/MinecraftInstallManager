@@ -15,7 +15,8 @@ authors = [
 dependencies = [
     "requests",
     "pyyaml",
-    "packaging"
+    "packaging",
+    "validators"
 ]
 
 classifiers = [

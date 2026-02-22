@@ -67,6 +67,11 @@ def test_main_install(tmp_path):
             },
             {
                 "name": "Geyser"
+            },
+            {
+                "name": "EssentialsX",
+                "id": "https://ci.ender.zone/job/EssentialsX",
+                "version": "lastStableBuild"
             }
         ]
     }
