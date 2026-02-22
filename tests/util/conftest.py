@@ -1,6 +1,7 @@
 from src.mim.util.SpigetRepository import SpigetRepository
 from src.mim.util.PaperRepository import PaperRepository
 from src.mim.util.GithubRepository import GithubRepository
+from src.mim.util.JenkinsRepository import JenkinsRepository
 from src.mim.util.ModrinthRepository import ModrinthRepository
 from src.mim.util.GeyserRepository import GeyserRepository
 import pytest
@@ -17,6 +18,10 @@ def paper_repository():
 @pytest.fixture(autouse=True,scope='session')
 def github_repository():
     return GithubRepository()
+
+@pytest.fixture(autouse=True,scope='session')
+def jenkins_repository():
+    return JenkinsRepository()
 
 @pytest.fixture(autouse=True,scope='session')
 def modrinth_repository():
