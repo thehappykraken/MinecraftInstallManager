@@ -166,10 +166,12 @@ def install(args):
         if not name:
             raise ValueError('Plugin entry missing "name"')
 
-        versions = find_versions(name, pid, loader, server)
 
         if version:
+            versions = find_versions(name, pid, loader, None)
             versions = [v for v in versions if v.version == version]
+        else:
+            versions = find_versions(name, pid, loader, server)
 
         if not versions:
             raise ValueError(f'No versions found for {name} (id={pid})')
