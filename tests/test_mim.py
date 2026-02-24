@@ -50,16 +50,15 @@ def test_main_download(tmp_path):
 def test_main_install(tmp_path):
     # Prepare an install JSON that targets a plugin known to be available in tests
     data = {
-        "version": "1.21.1",
+        "version": "1.21.9",
         "loader": "paper",
         "plugins": [
             {
                 "name": "QuickShop-Hikari",
-                "assets": ["QuickShop.*", ".*WorldEdit.*"]
+                "assets": ["QuickShop.*", ".*DiscordSRV.*"]
             },
             {
-                "name": "WorldEdit",
-                "version": "7.3.9"
+                "name": "WorldEdit"
             },
             {
                 "name": "DeathChest",
@@ -72,6 +71,11 @@ def test_main_install(tmp_path):
                 "name": "EssentialsX",
                 "id": "https://ci.ender.zone/job/EssentialsX",
                 "version": "lastStableBuild"
+            },
+            {
+                "name": "Vault",
+                "id": '34315',
+                "version": "1.7.3"
             }
         ]
     }
