@@ -23,7 +23,8 @@ class GithubRepository(PluginRepository):
         
         versions: list[PluginVersion] = []
         for release in response.json():
-            versions.append(PluginVersion(plugin=plugin, version=release['tag_name'], repository=self, metadata=release))
+            if not release.get('prerelease',False) and not release.get('draft',False):
+                versions.append(PluginVersion(plugin=plugin, version=release['tag_name'], repository=self, metadata=release))
         return versions
     
     def listAssets(self, plugin_version:PluginVersion) -> list[PluginAsset]:
