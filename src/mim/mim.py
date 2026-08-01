@@ -273,7 +273,7 @@ def install(args):
                 parsed = sorted(srv_versions)
             compat_range = parsed[0] if len(parsed) == 1 else f'{parsed[0]} - {parsed[-1]}'
 
-        if not current_versions or current_versions[0] != version or args.force:
+        if not current_versions or all(v != version for v in current_versions) or args.force:
 
             print(f'{version.plugin.name} Version: {version.version} (Supported: {compat_range})' + (f' (Updated from {current_versions[0].version})' if current_versions else ''))
             
