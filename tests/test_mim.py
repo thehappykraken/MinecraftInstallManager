@@ -4,6 +4,9 @@ import os
 import json
 import yaml
 import glob
+import pytest
+
+server_versions = [ "1.21.11", "26.2" ]
 
 def test_main_help_and_exit_codes(monkeypatch, capsys):
     # When no func provided (empty argv) -> return 1
@@ -28,8 +31,9 @@ def test_main_help_and_exit_codes(monkeypatch, capsys):
     assert code == 2
     assert 'Error: boom' in captured.err
 
-def test_main_versions_list():
-    args = ['versions', '--name', 'WorldEdit', '--loader', 'paper', '--server','1.20.x']
+@pytest.mark.parametrize("server_version_filter", ['1.21.x', '26.x'])
+def test_main_versions_list(server_version_filter):
+    args = ['versions', '--name', 'WorldEdit', '--loader', 'paper', '--server',server_version_filter]
     result = mim.main(args)
     assert result == 0  # Ensure the command executed successfully
 
@@ -47,10 +51,11 @@ def test_main_download(tmp_path):
     assert os.path.isfile(file1)
     assert os.path.isfile(file2)
 
-def test_main_install(tmp_path):
+@pytest.mark.parametrize("server_version", server_versions)
+def test_main_install(tmp_path, server_version):
     # Prepare an install JSON that targets a plugin known to be available in tests
     data = {
-        "version": "1.21.9",
+        "version": server_version,
         "loader": "paper",
         "plugins": [
             {
@@ -66,6 +71,9 @@ def test_main_install(tmp_path):
             },
             {
                 "name": "Geyser"
+            },
+            {
+                "name": "Floodgate"
             },
             {
                 "name": "EssentialsX",
@@ -100,10 +108,11 @@ def test_main_install(tmp_path):
     assert qs_matches and os.path.isfile(qs_matches[0])
     # assert qs_matches and qs_matches[0].is_file()
 
-def test_main_uninstall(tmp_path):
+@pytest.mark.parametrize("server_version", server_versions)
+def test_main_uninstall(tmp_path, server_version):
     # Prepare an install JSON that targets a plugin known to be available in tests
     data = {
-        "version": "1.21.1",
+        "version": server_version,
         "loader": "paper",
         "plugins": [
             {
@@ -126,7 +135,7 @@ def test_main_uninstall(tmp_path):
 
     # Update WorldEdit version
     data = {
-        "version": "1.21.1",
+        "version": server_version,
         "loader": "paper",
         "plugins": [
             {
@@ -154,15 +163,16 @@ def test_main_uninstall(tmp_path):
     qs_matches = glob.glob(os.path.join(tmp_path, 'plugins', "worldedit*7.3.8.jar"))
     assert not qs_matches
 
-def test_main_install_dryrun(tmp_path):
+@pytest.mark.parametrize("server_version", server_versions)
+def test_main_install_dryrun(tmp_path, server_version):
     # Prepare an install JSON that targets a plugin known to be available in tests
     data = {
-        "version": "1.21.1",
+        "version": server_version,
         "loader": "paper",
         "plugins": [
             {
                 "name": "QuickShop-Hikari",
-                "assets": ["QuickShop.*", ".*WorldEdit.*"]
+                "assets": ["QuickShop.*", ".*DiscordSRV.*"]
             },
             {
                 "name": "WorldEdit",
