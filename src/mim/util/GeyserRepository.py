@@ -30,7 +30,7 @@ class GeyserRepository(PluginRepository):
                 downloads = vb['downloads']
 
                 if channel.lower() == 'default':
-                    servers = ServerRepository.searchAll('1.x.x')
+                    servers = ServerRepository.searchAll('1.x.x') + ServerRepository.searchAll('x.x')
                     for loader,download in downloads.items():
                         file = download['name']
                         compatibility = [server for server in servers if server.name.lower() == loader or server.name.lower() == 'paper' and loader == 'spigot']
