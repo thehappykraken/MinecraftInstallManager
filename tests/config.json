@@ -1,6 +1,6 @@
 {
   "loader": "paper",
-  "server": "1.x.x",
+  "version": "x.x.x",
   "plugins": [
     {
       "name": "DeathChest",

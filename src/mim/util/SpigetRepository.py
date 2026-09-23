@@ -28,8 +28,10 @@ class SpigetRepository(PluginRepository):
         
         compatibility: list[Server] = []
         for tv in tested_versions:
-            if len(tv.split('.')) == 2:
-                tv += '.x'
+            # Spiget reports the version line ('1.20', '26.1'), not a concrete release
+            parts = tv.split('.')
+            if len(parts) < 3:
+                tv += '.x' * (3 - len(parts))
             loaders = ['bukkit', 'spigot', 'paper']
             servers = [server for server in ServerRepository.searchAll(tv) if server.name.lower() in loaders]
             compatibility.extend(servers)

@@ -137,7 +137,7 @@ def install(args):
     if not isinstance(data, dict):
         raise TypeError('Input json must be a dict defining server and plugin specifications')
     
-    server = data.get('version','1.x.x')
+    server = data.get('version','x.x.x')
     loader = data.get('loader')
     
     if not loader:
@@ -320,7 +320,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_versions.add_argument('--name', '-n', help='Plugin name')
     p_versions.add_argument('--id', '-i', help='Plugin id')
     p_versions.add_argument('--loader', '-l', help='Filter by loader (e.g., paper, spigot)')
-    p_versions.add_argument('--server', '-s', help='Filter by Minecraft server version (e.g., 1.16, 1.17.x)')
+    p_versions.add_argument('--server', '-s', help='Filter by Minecraft server version (e.g., 1.21.4, 1.21.x, 26.2, 26.x)')
     p_versions.set_defaults(func=list_versions)
 
     p_assets = sub.add_parser('assets', help='List assets for plugin version')
@@ -328,7 +328,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_assets.add_argument('--id', '-i', help='Plugin id')
     p_assets.add_argument('--version', '-v', help='Plugin version to inspect')
     p_assets.add_argument('--loader', '-l', help='Filter by loader (e.g., paper, spigot)')
-    p_assets.add_argument('--server', '-s', help='Filter by Minecraft server version (e.g., 1.16, 1.17.x)')
+    p_assets.add_argument('--server', '-s', help='Filter by Minecraft server version (e.g., 1.21.4, 1.21.x, 26.2, 26.x)')
     p_assets.set_defaults(func=list_assets)
 
     p_download = sub.add_parser('download', help='Download plugin versions or specific assets')
@@ -336,7 +336,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_download.add_argument('--id', '-i', help='Plugin id')
     p_download.add_argument('--version', '-v', help='Specific plugin version to download')
     p_download.add_argument('--loader', '-l', help='Filter by loader (e.g., paper, spigot)')
-    p_download.add_argument('--server', '-s', help='Filter by Minecraft server version (e.g., 1.16, 1.17.x)')
+    p_download.add_argument('--server', '-s', help='Filter by Minecraft server version (e.g., 1.21.4, 1.21.x, 26.2, 26.x)')
     p_download.add_argument('--asset', '-a', nargs='+', help='Specific asset filename(s) to download (one or more). Supports regex')
     p_download.add_argument('--destination', '-d', help='Directory to save downloads')
     p_download.set_defaults(func=download)

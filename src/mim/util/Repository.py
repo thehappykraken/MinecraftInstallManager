@@ -1,5 +1,34 @@
 from __future__ import annotations
 import os
+import re
+
+def version_pattern(minecraft_version:str) -> str:
+    """Translates a Minecraft version specification into a full-match regular expression
+
+    'x' stands for one numeric component. Trailing wildcard components past the
+    second are optional, so '1.x.x' matches '1.21' as well as '1.21.4', and
+    'x.x.x' spans both the old '1.21.4' and the new '26.2' / '26.1.2' numbering.
+
+    Parameters
+    ----------
+    minecraft_version : str
+        The minecraft version specification, e.g. '1.21.4', '1.21.x', '26.x' or 'x.x.x'
+
+    Returns
+    -------
+    str
+        A regular expression suitable for re.fullmatch against a concrete version
+    """
+    parts = minecraft_version.split('.')
+    required = len(parts)
+    while required > 2 and parts[required - 1] == 'x':
+        required -= 1
+
+    tokens = [r'\d+' if part == 'x' else re.escape(part) for part in parts]
+    pattern = r'\.'.join(tokens[:required])
+    for token in tokens[required:]:
+        pattern += r'(?:\.' + token
+    return pattern + ')?' * (len(parts) - required)
 
 class Server:
     def __init__(self, name:str, server_version:str, minecraft_version:str, repository:ServerRepository):

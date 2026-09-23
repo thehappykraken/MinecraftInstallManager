@@ -19,8 +19,8 @@ class PaperRepository(ServerRepository):
 
     def search(self, minecraft_version:str) -> list[Server]|None:
         servers = self.list()
-        minecraft_version = minecraft_version.replace('x','\d*')
-        return [server for server in servers if re.fullmatch(minecraft_version, server.minecraft_version)]
+        pattern = version_pattern(minecraft_version)
+        return [server for server in servers if re.fullmatch(pattern, server.minecraft_version)]
 
     def list(self) -> list[Server]:
         if self.servers is not None:
