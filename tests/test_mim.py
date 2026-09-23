@@ -31,7 +31,7 @@ def test_main_help_and_exit_codes(monkeypatch, capsys):
     assert code == 2
     assert 'Error: boom' in captured.err
 
-@pytest.mark.parametrize("server_version_filter", ['1.21.x', '26.x'])
+@pytest.mark.parametrize("server_version_filter", ['1.21.x', '26.x', '26.x.x'])
 def test_main_versions_list(server_version_filter):
     args = ['versions', '--name', 'WorldEdit', '--loader', 'paper', '--server',server_version_filter]
     result = mim.main(args)

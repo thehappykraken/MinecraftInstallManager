@@ -52,7 +52,7 @@ Key mechanics that span files:
 - **Lazy fan-out.** `Plugin.versions` and `PluginVersion.assets` are cached properties that trigger network calls on first access; a single `find_versions()` call queries every registered plugin repository.
 - **Compatibility is populated at search time.** Modrinth/Spiget/Geyser resolve their declared game versions into concrete `Server` objects via `ServerRepository.searchAll()` during `search()`. GitHub and Jenkins report `compatibility=None`, which every filter treats as "compatible with anything".
 - **Install/uninstall by filename convention.** "Installed" state is inferred purely by probing the destination directory for expected filenames (`Server.asset` = `{name}-{server_version}.jar`; `Plugin.installedVersions()` matches asset filenames). Repositories rewrite asset filenames to embed the version (`filename.replace('.jar', f'-{version}.jar')`) so that detection and cleanup of old versions work. Changing a filename scheme breaks upgrade detection for already-installed users.
-- **Version-string handling.** Ordering uses `packaging.version.Version` with a lexical fallback on `InvalidVersion` — necessary because Jenkins versions are build numbers/permalinks (`lastStableBuild`) and Geyser versions are `{version}.{build}`. `PaperRepository.search()` implements the `1.x.x` wildcard by rewriting `.x` to the regex `.?\d*` and full-matching.
+- **Version-string handling.** Ordering uses `packaging.version.Version` with a lexical fallback on `InvalidVersion` — necessary because Jenkins versions are build numbers/permalinks (`lastStableBuild`) and Geyser versions are `{version}.{build}`. `version_pattern()` in `Repository.py` translates a version spec into a full-match regex (`x` -> `\d+`, literals escaped) and is shared by every `ServerRepository`. A *trailing* `x` component past the second is optional, so `1.x.x` matches `1.21` as well as `1.21.4`, and `x.x.x` spans both the legacy `1.X.Y` numbering and the current `X.Y`/`X.Y.Z` numbering (`26.2`, `26.1.2`). Specs that are already two components stay strict: `x.x` will not match `26.1.2`.
 
 `src/mim/mim.py` holds the argparse CLI (`versions`, `assets`, `download`, `install`) plus the install resolution algorithm.
 
@@ -65,9 +65,9 @@ This is the most subtle code in the repo and the subject of the most recent bug 
 
 It then prefers servers satisfying both buckets, falls back to the unspecified-only set with a "Continuing at risk" warning, picks the highest server version, and resolves each unspecified plugin against that chosen server. When editing, preserve the "warn and continue at risk" behavior — failing hard here was the bug fixed in `0087e8f`.
 
-## Config file format gotcha
+## Config file format
 
-`install()` reads the server version from the **`version`** key (`data.get('version', '1.x.x')`), but `README.md` documents the key as `server:` and `tests/config.json` also uses `server`. Configs using `server:` silently fall back to `1.x.x`. Confirm which key is intended before "fixing" either side. `--file` accepts JSON or YAML; JSON is tried first and YAML is the fallback on `JSONDecodeError`.
+`install()` reads the server version from the **`version`** key (`data.get('version', 'x.x.x')`) — that is the one supported spelling; `README.md` and `tests/config.json` previously used `server:`, which the code never read, and have been corrected. An unpinned config therefore resolves to the newest release across *both* numbering schemes. `--file` accepts JSON or YAML; JSON is tried first and YAML is the fallback on `JSONDecodeError`.
 
 ## Import paths
 

@@ -26,9 +26,11 @@ Use `mim --help` to view the help documentation
 # loader - The name of the plugin loader such as paper, fabric, or vanilla
 loader: "plugin loader"
 
-# server - The plugin loader version such as 1.20.1
-# x may be used to indicate a don't care value. e.g. 1.x.x or 1.20.x
-server: "1.x.x"
+# version - The Minecraft version such as 1.21.4 or 26.2
+# x may be used to indicate a don't care value. Both the legacy 1.X.Y numbering
+# and the current X.Y / X.Y.Z numbering are supported.
+# e.g. 1.x.x, 1.21.x, 26.x, 26.x.x, or x.x.x for any version
+version: "x.x.x"
 
 # plugins - A list of plugins
 plugins:

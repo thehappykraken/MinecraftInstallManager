@@ -10,7 +10,7 @@ geyser_plugins = [
 @pytest.mark.parametrize("plugin_name", geyser_plugins)
 def test_search_geyser_plugins(geyser_repository, paper_repository, plugin_name):
     versions = geyser_repository.search(plugin=Plugin(plugin_name))
-    servers = paper_repository.search(minecraft_version='1.x.x') + paper_repository.search(minecraft_version='x.x')
+    servers = paper_repository.search(minecraft_version='x.x.x')
     assert versions is not None
     assert len(versions) > 0
     for version in versions:
